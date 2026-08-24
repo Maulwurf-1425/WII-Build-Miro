@@ -21,7 +21,7 @@ CFLAGS      =   -g -O2 -Wall $(MACHDEP) $(INCLUDE) -I$(LIBOGC_INC)
 CXXFLAGS    =   $(CFLAGS)
 LDFLAGS     =   -g $(MACHDEP) -L$(LIBOGC_LIB) -Wl,-Map,$(notdir $@).map
 
-LIBS        :=  -lgrrlib -lfreetype -ljpeg -lpngu -lpng -lz -lfat -lwiiuse -lbte -logc -lm
+LIBS        :=  -lgrrlib -ljpeg -lpngu -lpng -lz -lfat -lwiiuse -lbte -logc -lm
 
 LIBDIRS     :=  $(PORTLIBS)
 
