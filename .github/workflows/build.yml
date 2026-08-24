@@ -19,6 +19,7 @@ jobs:
           git clone https://github.com/GRRLIB/GRRLIB.git ../GRRLIB
           cd ../GRRLIB/GRRLIB
           make
+          make install
 
       - name: Build .dol
         run: |
