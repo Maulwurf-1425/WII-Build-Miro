@@ -15,9 +15,9 @@ SOURCES     :=  source
 DATA        :=  data
 INCLUDES    :=  source
 
-CFLAGS      =   -g -O2 -Wall $(MACHDEP) $(INCLUDE)
+CFLAGS      =   -g -O2 -Wall $(MACHDEP) $(INCLUDE) -I$(LIBOGC_INC)
 CXXFLAGS    =   $(CFLAGS)
-LDFLAGS     =   -g $(MACHDEP) -Wl,-Map,$(notdir $@).map
+LDFLAGS     =   -g $(MACHDEP) -L$(LIBOGC_LIB) -Wl,-Map,$(notdir $@).map
 
 LIBS        :=  -lgrrlib -lfreetype -ljpeg -lpngu -lpng -lz -lfat -lwiiuse -lbte -logc -lm
 
