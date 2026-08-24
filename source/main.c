@@ -23,6 +23,35 @@
 #include "strings.h"   /* translation table */
 
 /* ====================================================================
+   GRRLIB COMPATIBILITY SHIM
+   This GRRLIB build has no texture-based system font
+   (GRRLIB_GetSystemFont() does not exist here). Instead it exposes
+   GRRLIB_PrintfSystemFont(x, y, string, fontSize, color) directly.
+   Rather than rewrite every call site in this file, we redirect all
+   existing GRRLIB_Printf(x, y, GRRLIB_GetSystemFont(), color, zoom, ...)
+   calls through this shim, unchanged.
+   ==================================================================== */
+#include <stdarg.h>
+
+static void* GRRLIB_GetSystemFont(void) { return NULL; }
+
+static void MTW_PrintfCompat(f32 xpos, f32 ypos, void *unused_tex, u32 color,
+                              f32 zoom, const char *text, ...) {
+    (void)unused_tex;
+    char tmp[1024];
+    va_list argp;
+    va_start(argp, text);
+    vsnprintf(tmp, sizeof(tmp), text, argp);
+    va_end(argp);
+    unsigned int fontSize = (unsigned int)(zoom * 16.0f);
+    if (fontSize < 8) fontSize = 8;
+    GRRLIB_PrintfSystemFont((int)xpos, (int)ypos, tmp, fontSize, color);
+}
+
+#define GRRLIB_Printf(x, y, tex, color, zoom, ...) \
+    MTW_PrintfCompat((x), (y), (tex), (color), (zoom), __VA_ARGS__)
+
+/* ====================================================================
    LANGUAGE
    ==================================================================== */
 static Language currentLang = LANG_EN;
@@ -698,7 +727,7 @@ static void DrawSkatepark(void) {
     GRRLIB_FillScreen(COL_SKATEPARK);
 
     /* Half-pipe */
-    GRRLIB_Rectangle(80,30, 480,100, 0xAAAAAACCFF, 1);
+    GRRLIB_Rectangle(80,30, 480,100, 0xAAAAAACC, 1);
     GRRLIB_Printf(240,70, GRRLIB_GetSystemFont(), 0x333333FF, 2,
                   "%s", T(S_SK_HALFPIPE));
 
