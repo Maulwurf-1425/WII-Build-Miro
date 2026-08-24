@@ -8,6 +8,8 @@ endif
 
 include $(DEVKITPPC)/wii_rules
 
+LD          :=  $(CC)
+
 #---------------------------------------------------------------------------------
 TARGET      :=  MiroTayWorkshopRPG
 BUILD       :=  build
