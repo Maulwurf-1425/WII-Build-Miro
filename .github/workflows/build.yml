@@ -14,10 +14,6 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Install Wii dev packages
-        run: |
-          dkp-pacman -Sy --noconfirm wii-dev ppc-libpng ppc-zlib
-
       - name: Clone GRRLIB
         run: |
           git clone https://github.com/GRRLIB/GRRLIB.git ../GRRLIB
@@ -40,3 +36,4 @@ jobs:
         with:
           name: MiroTayWorkshopRPG-boot-dol
           path: boot.dol
+
