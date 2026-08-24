@@ -1,0 +1,37 @@
+name: Build Wii Homebrew
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: devkitpro/devkitppc:latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Clone GRRLIB
+        run: |
+          git clone https://github.com/GRRLIB/GRRLIB.git ../GRRLIB
+          cd ../GRRLIB/GRRLIB
+          make
+
+      - name: Build .dol
+        run: |
+          export DEVKITPRO=/opt/devkitpro
+          export DEVKITPPC=$DEVKITPRO/devkitPPC
+          export PATH=$PATH:$DEVKITPPC/bin
+          make
+
+      - name: Rename to boot.dol
+        run: cp MiroTayWorkshopRPG.dol boot.dol
+
+      - name: Upload boot.dol as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MiroTayWorkshopRPG-boot-dol
+          path: boot.dol
