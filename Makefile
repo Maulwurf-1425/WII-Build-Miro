@@ -21,7 +21,7 @@ LDFLAGS     =   -g $(MACHDEP) -Wl,-Map,$(notdir $@).map
 
 LIBS        :=  -lgrrlib -lfreetype -ljpeg -lpngu -lpng -lz -lfat -lwiiuse -lbte -logc -lm
 
-LIBDIRS     :=  $(PORTLIBS) $(CURDIR)/../GRRLIB/GRRLIB/lib
+LIBDIRS     :=  $(PORTLIBS) $(CURDIR)/../GRRLIB/GRRLIB
 
 #---------------------------------------------------------------------------------
 include $(DEVKITPPC)/base_rules
